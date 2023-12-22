@@ -29,6 +29,7 @@ var blink
 var sad
 var canW
 var canH
+var screen
 
 function preload() {
   //images
@@ -77,9 +78,9 @@ function setup() {
   bgSound.setVolume(0.25)
   //criando o solo
   ground = new Ground(width/2, height - 10, width, 20)
-  rope = new Rope(6, { x: isMobile ? width-100:245, y: 30 })
+  rope = new Rope(6, { x: width<500 ? width-100:245, y: 30 })
   rope2 = new Rope(6, { x: 48, y: 68 })
-  rope3 = new Rope(6, { x: isMobile ? width-50:390, y: 184 })
+  rope3 = new Rope(6, { x: width<500 ? width-50:390, y: 184 })
   fruit = Bodies.circle(300, 300, fruitradius, fruitoptions)
   Composite.add(rope.body, fruit)
   link = new Link(rope, fruit)
@@ -98,7 +99,7 @@ function setup() {
   //botão
   button = createImg("./assets/assets/cut_button.png")
   button.size(50, 50)
-  button.position(isMobile ? width-100:230, 30)
+  button.position(width<500 ? width-100:230, 30)
   button.mouseClicked(drop)
   //botão2
   button2 = createImg("./assets/assets/cut_button.png")
@@ -108,12 +109,12 @@ function setup() {
   //botão3 
   button3 = createImg("./assets/assets/cut_button.png")
   button3.size(50, 50)
-  button3.position(isMobile ? width-50:367, 184)
+  button3.position(width<500? width-50:367, 184)
   button3.mouseClicked(drop3)
   //mute
   mute = createImg("./assets/assets/mute.png")
   mute.size(50, 50)
-  mute.position(isMobile ? width-50:430, 30)
+  mute.position(width<500 ? width-50:430, 30)
   mute.mouseClicked(silence)
   //balloon
   //balloon = createImg("./assets/assets/balloon.png")
