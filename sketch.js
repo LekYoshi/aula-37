@@ -17,16 +17,18 @@ var soundSad
 var bgSound
 var soundBalloon, balloon
 var ground
-var rope, ropeSound
+var rope, ropeSound,rope2,rope3
 var fruit, fruitImg
 var fruitradius
-var link
+var link, link2, link3
 var bgImg
 var bunnyImg, bunny
-var button
+var button, button2, button3
 var eat
 var blink
 var sad
+var canW
+var canH
 
 function preload() {
   //images
@@ -55,8 +57,16 @@ function preload() {
 
 
 function setup() {
-  //a
-  createCanvas(500, windowHeight);
+  var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+  if (isMobile){
+    canW = displayWidth
+    canH = displayHeight
+  } 
+  else{
+    canW= windowWidth
+    canH= windowHeight
+  }
+  createCanvas(canW, canH);
   engine = Engine.create();
   world = engine.world;
   var fruitoptions = {
@@ -66,13 +76,17 @@ function setup() {
   //bgSound.play()
   bgSound.setVolume(0.25)
   //criando o solo
-  ground = new Ground(200, height - 10, 600, 20)
+  ground = new Ground(width/2, height - 10, width, 20)
   rope = new Rope(6, { x: 245, y: 30 })
+  rope2 = new Rope(6, { x: 48, y: 68 })
+  rope3 = new Rope(6, { x: 390, y: 184 })
   fruit = Bodies.circle(300, 300, fruitradius, fruitoptions)
   Composite.add(rope.body, fruit)
   link = new Link(rope, fruit)
+  link2 = new Link(rope2, fruit)
+  link3 = new Link(rope3, fruit)
   //bunny
-  bunny = createSprite(width -50, height - 80)
+  bunny = createSprite(100, height - 80)
   blink.frameDelay = 12
   eat.frameDelay = 20
   sad.frameDelay = 20
@@ -86,16 +100,26 @@ function setup() {
   button.size(50, 50)
   button.position(230, 30)
   button.mouseClicked(drop)
+  //botão2
+  button = createImg("./assets/assets/cut_button.png")
+  button.size(50, 50)
+  button.position(63, 68)
+  button.mouseClicked(drop2)
+  //botão3 
+  button = createImg("./assets/assets/cut_button.png")
+  button.size(50, 50)
+  button.position(367, 184)
+  button.mouseClicked(drop3)
   //mute
   mute = createImg("./assets/assets/mute.png")
   mute.size(50, 50)
   mute.position(430, 30)
   mute.mouseClicked(silence)
   //balloon
-  balloon = createImg("./assets/assets/balloon.png")
-  balloon.size(150, 100)
-  balloon.position(75, 230)
-  balloon.mouseClicked(airBlow)
+  //balloon = createImg("./assets/assets/balloon.png")
+  //balloon.size(150, 100)
+  //balloon.position(75, 230)
+  //balloon.mouseClicked(airBlow)
   //settings
   rectMode(CENTER);
   ellipseMode(RADIUS);
@@ -110,7 +134,8 @@ function draw() {
   Engine.update(engine)
   ground.display()
   rope.show()
-
+  rope2.show()
+  rope3.show()
   if (fruit != null)
     image(fruitImg, fruit.position.x, fruit.position.y, fruitradius + 45, fruitradius + 45)
 
@@ -168,5 +193,15 @@ function silence() {
   }
 }
 
-
-
+function drop2(){
+  rope2.break()
+  link2.detach()
+  link2= null
+  ropeSound.play()
+}
+function drop3(){
+  rope3.break()
+  link3.detach()
+  link3 = null
+  ropeSound.play()
+}
